@@ -24,7 +24,8 @@ namespace MSController
         /// Opens an excel spreadsheet for processing.
         /// </summary>
         /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
-        public void open(string filePath)
+        /// <param name="sheet">The worksheet to open.</param>
+        public void open(string filePath, string sheet = "defualt")
         {
             excelApp = new Excel.Application();
 
@@ -35,7 +36,22 @@ namespace MSController
             workbooks = excelApp.Workbooks;
             workbook = workbooks.Open(filePath, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing);
             worksheets = workbook.Worksheets;
-            worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+
+            if (sheet.Equals("defualt"))
+            {
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            }
+            else
+            {
+                try
+                {
+                    worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
+                }
+                catch (Exception e)
+                {
+                    worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+                }
+            }            
         }
 
         /// <summary>
@@ -110,7 +126,7 @@ namespace MSController
         /// <returns>
         /// The value from the last cell in the specified column.
         /// </returns>
-        public string getLastRowCell(string column)
+        public string getLastCellInColumn(string column)
         {
             int counter = 1;
             range = worksheet.Range[column + counter];
@@ -133,7 +149,7 @@ namespace MSController
         /// <returns>
         /// The value from the last cell in the specified row.
         /// </returns>
-        public string getLastColumnCell(int row)
+        public string getLastCellInRow(int row)
         {
             // TODO: getLastColumnCell() method
             List<string> alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(x => x.ToString()).ToList();
@@ -150,6 +166,8 @@ namespace MSController
         /// </summary>
         /// <param name="column">String value of the column of the cell.</param>
         /// <param name="row">Int value of the row of the cell.</param>
+        /// <param name="data">The value to write to the cell.</param>
+        /// <param name="numberFormat">Whether the data should be formatted as a number (Prevents scientific notation being used).</param>
         public void writeCell(string column, int row, string data, Boolean numberFormat = false)
         {
             range = worksheet.Range[column + row.ToString()];
@@ -162,7 +180,9 @@ namespace MSController
         /// Writes a value to the last cell in a specified column in the open spreadsheet.
         /// </summary>
         /// <param name="column">String value of the column of the cell.</param>
-        public void writeLastRowCell(string column, string data, Boolean numberFormat = false)
+        /// <param name="data">The value to write to the cell.</param>
+        /// <param name="numberFormat">Whether the data should be formatted as a number (Prevents scientific notation being used).</param>
+        public void writeLastCellInColumn(string column, string data, Boolean numberFormat = false)
         {
             int counter = 1;
             range = worksheet.Range[column + counter];
