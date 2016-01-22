@@ -8,7 +8,7 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
     ExcelHandler excelHandler = new ExcelHandler();
     excelHandler.open(FILEPATH);
     string data = excelHandler.getCell("A", 1);  // Gets value from cell A1
-    string dataLast = excelHandler.getLastRowCell("A");  // Gets the value from the last occupied row in column A
+    string dataLast = excelHandler.getLastCellInRow("A");  // Gets the value from the last occupied row in column A
     excelHandler.writeCell("A", 2, data);  // Writes data to cell A2
     excelHandler.close();
     
@@ -24,10 +24,9 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
     
 #### Future changes
 ExcelHandler
-- Finish the getLastColumnCell method.
-- Will likely swap round the getLastRowCell and getLastColumnCell methods as they make more sense with the names reversed.
-- Implement a writeLastColumnCell method.
-- Allow the workbook to be seleced.
+- Finish the getLastCellInColumn method.
+- Implement a writeLastCellInColumn method.
+- Improve exception handling.
 
 OutlookHandler
-- Handle exceptions.
+- Improve exception handling.
