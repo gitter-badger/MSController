@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Excel = Microsoft.Office.Interop.Excel;
 
 namespace MSController
@@ -201,7 +200,7 @@ namespace MSController
         /// <param name="row">Int value of the row of the cell.</param>
         /// <param name="data">The value to write to the cell.</param>
         /// <param name="numberFormat">Whether the data should be formatted as a number (Prevents scientific notation being used).</param>
-        public void writeCell(string column, int row, string data, Boolean numberFormat = false)
+        public void writeCell(string column, int row, string data, bool numberFormat = false)
         {
             range = worksheet.Range[column + row.ToString()];
             range.Value = data;
@@ -215,7 +214,7 @@ namespace MSController
         /// <param name="column">String value of the column of the cell.</param>
         /// <param name="data">The value to write to the cell.</param>
         /// <param name="numberFormat">Whether the data should be formatted as a number (Prevents scientific notation being used).</param>
-        public void writeLastCellInColumn(string column, string data, Boolean numberFormat = false)
+        public void writeLastCellInColumn(string column, string data, bool numberFormat = false)
         {
             int counter = 1;
             range = worksheet.Range[column + counter];
