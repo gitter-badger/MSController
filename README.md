@@ -30,4 +30,4 @@ ExcelHandler
 - Allow the workbook to be seleced.
 
 OutlookHandler
-- Nothing for now.
+- Handle exceptions.
