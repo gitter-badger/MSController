@@ -23,7 +23,9 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
     
 #### Future changes
 ExcelHandler
+- Finish the getLastColumnCell method.
 - Will likely swap round the getLastRowCell and getLastColumnCell methods as they make more sense with the names reversed.
+- Implement a writeLastColumnCell method.
 - Allow the workbook to be seleced.
 
 OutlookHandler
