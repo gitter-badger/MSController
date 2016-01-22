@@ -39,7 +39,7 @@ namespace MSController
         }
 
         /// <summary>
-        /// Closes an excel spreadsheet.
+        /// Closes the excel spreadsheet.
         /// </summary>
         /// <param name="save">Boolean value of whether or not to save the file.</param>
         public void close(Boolean save = false)
