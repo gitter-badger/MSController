@@ -51,14 +51,16 @@ namespace MSController
                 {
                     worksheet = (Excel.Worksheet)workbook.ActiveSheet;
                 }
-            }            
+            }
+
+            range = worksheet.Range["A" + 1];
         }
 
         /// <summary>
         /// Closes the excel spreadsheet.
         /// </summary>
         /// <param name="save">Boolean value of whether or not to save the file.</param>
-        public void close(Boolean save = false)
+        public void close(bool save = false)
         {
             if (save == true)
                 workbook.Save();
@@ -91,13 +93,44 @@ namespace MSController
         }
 
         /// <summary>
+        /// Opens an excel spreadsheet, creates a new sheet then closes it.
+        /// </summary>
+        /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
+        /// <param name="sheet">The worksheet to create.</param>
+        public void addSheet(string filePath, string sheet)
+        {
+            excelApp = new Excel.Application();
+
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException();
+
+            excelApp.Visible = false;
+            workbooks = excelApp.Workbooks;
+            workbook = workbooks.Open(filePath, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing);
+            worksheets = workbook.Worksheets;
+            worksheet = (Excel.Worksheet)worksheets.Add(worksheets[1], Type.Missing, Type.Missing, Type.Missing);
+
+            try {
+                worksheet.Name = sheet;
+            }catch (System.Runtime.InteropServices.COMException com)
+            {
+                throw com;
+            }
+            finally
+            {
+                range = worksheet.Range["A" + 1];
+                close(true);
+            }
+        }
+
+        /// <summary>
         /// Checks whether a spreadsheet is open or not.
         /// </summary>
         /// <param name="filePath">String value of the column of the cell.</param>
         /// <returns>
         /// True if the file is open, false if not.
         /// </returns>
-        public Boolean isOpen(string filePath)
+        public bool isOpen(string filePath)
         {
             // TODO: Create isOpen() method
             return false;

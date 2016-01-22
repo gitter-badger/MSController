@@ -96,7 +96,7 @@ namespace MSController
             }
             catch (Exception ex)
             {
-                // TODO: Catch various exceptions
+                throw ex;
             }
 
         }
