@@ -14,7 +14,7 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
     
 
 
-## Quick examples - Outlook Handler
+## Quick examples - OutlookHandler
 
     OutlookHandler outlookHandler = new OutlookHandler();
     // recipeint and attachmentPath can either be strings or List<string>s - attachmentPath is optional
