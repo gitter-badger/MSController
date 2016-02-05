@@ -20,7 +20,7 @@ namespace MSController
         object missing = System.Reflection.Missing.Value;
 
         /// <summary>
-        /// Opens an excel spreadsheet for processing.
+        /// Opens an existing excel spreadsheet for processing.
         /// </summary>
         /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
         /// <param name="sheet">The worksheet to open.</param>
@@ -28,8 +28,12 @@ namespace MSController
         {
             excelApp = new Excel.Application();
 
+            // TODO: Create custom exception
+            if (excelApp == null)
+                throw new Exception();
+
             if (!File.Exists(filePath))
-                throw new FileNotFoundException();
+                throw new IOException();
 
             excelApp.Visible = false;
             workbooks = excelApp.Workbooks;
@@ -53,6 +57,29 @@ namespace MSController
             }
 
             range = worksheet.Range["A" + 1];
+        }
+
+        /// <summary>
+        /// Creates an excel spreadsheet.
+        /// </summary>
+        /// <param name="filePath">The filepath string of the spreadsheet to be created.</param>
+        public void create(string filePath)
+        {
+            excelApp = new Excel.Application();
+
+            // TODO: Create custom exception
+            if (excelApp == null)
+                throw new Exception();
+
+            excelApp.Visible = false;
+            workbooks = excelApp.Workbooks;
+            workbook = workbooks.Add(missing);
+            worksheets = workbook.Worksheets;
+            worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            range = worksheet.Range["A" + 1];
+            workbook.SaveAs(filePath);
+
+            close();
         }
 
         /// <summary>
@@ -80,15 +107,6 @@ namespace MSController
             GC.WaitForPendingFinalizers();
             GC.Collect();
             GC.WaitForPendingFinalizers();
-        }
-
-        /// <summary>
-        /// Creates an excel spreadsheet.
-        /// </summary>
-        /// <param name="filePath">The filepath string of the spreadsheet to be created.</param>
-        public void create(string filePath)
-        {
-            // TODO: Create create() method
         }
 
         /// <summary>
@@ -228,6 +246,24 @@ namespace MSController
             range.Value = data;
             if (numberFormat)
                 range.NumberFormat = "#";
+        }
+
+        /// <summary>
+        /// Deletes the specified row from the spreadsheet.
+        /// </summary>
+        /// <param name="row">The row to delete.</param>
+        public void deleteRow(int row)
+        {
+            // TODO
+        }
+
+        /// <summary>
+        /// Deletes the specified column from the spreadsheet.
+        /// </summary>
+        /// <param name="column">The column to delete.</param>
+        public void deleteColumn(string column)
+        {
+            // TODO
         }
     }
 
