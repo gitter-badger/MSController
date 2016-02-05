@@ -11,14 +11,16 @@ namespace MSController
     /// </summary>
     public class ExcelHandler
     {
-        Excel.Application excelApp;
-        Excel.Workbooks workbooks;
-        Excel.Workbook workbook;
-        Excel.Sheets worksheets;
-        Excel.Worksheet worksheet;
-        Excel.Range range;
+        static Excel.Application excelApp;
+        static Excel.Workbooks workbooks;
+        static Excel.Workbook workbook;
+        static Excel.Sheets worksheets;
+        static Excel.Worksheet worksheet;
+        static Excel.Range range;
         object missing = System.Reflection.Missing.Value;
 
+
+        // Open, close, create, isOpen
         /// <summary>
         /// Opens an existing excel spreadsheet for processing.
         /// </summary>
@@ -110,37 +112,6 @@ namespace MSController
         }
 
         /// <summary>
-        /// Opens an excel spreadsheet, creates a new sheet then closes it.
-        /// </summary>
-        /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
-        /// <param name="sheet">The worksheet to create.</param>
-        public void addSheet(string filePath, string sheet)
-        {
-            excelApp = new Excel.Application();
-
-            if (!File.Exists(filePath))
-                throw new FileNotFoundException();
-
-            excelApp.Visible = false;
-            workbooks = excelApp.Workbooks;
-            workbook = workbooks.Open(filePath, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing, missing);
-            worksheets = workbook.Worksheets;
-            worksheet = (Excel.Worksheet)worksheets.Add(worksheets[1], Type.Missing, Type.Missing, Type.Missing);
-
-            try {
-                worksheet.Name = sheet;
-            }catch (System.Runtime.InteropServices.COMException com)
-            {
-                throw com;
-            }
-            finally
-            {
-                range = worksheet.Range["A" + 1];
-                close(true);
-            }
-        }
-
-        /// <summary>
         /// Checks whether a spreadsheet is open or not.
         /// </summary>
         /// <param name="filePath">String value of the column of the cell.</param>
@@ -153,6 +124,37 @@ namespace MSController
             return false;
         }
 
+
+        // Navigation
+        /// <summary>
+        /// Opens an excel spreadsheet, creates a new sheet then closes it.
+        /// </summary>
+        /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
+        /// <param name="sheet">The worksheet to create.</param>
+        public void addSheet(string sheet)
+        {
+            worksheet = (Excel.Worksheet)worksheets.Add(worksheets[1], Type.Missing, Type.Missing, Type.Missing);
+            worksheet.Name = sheet;
+        }
+
+        /// <summary>
+        /// Switches from the current worksheet to the specified one.
+        /// </summary>
+        /// <param name="sheet">The worksheet to switch to. If it is not found it will instead switch to the default.</param>
+        public void changeSheet(string sheet)
+        {
+            try
+            {
+                worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
+            }
+            catch (Exception e)
+            {
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            }
+        }
+
+
+        // Read
         /// <summary>
         /// Gets the value from a specified cell in the open spreadsheet.
         /// </summary>
@@ -211,6 +213,8 @@ namespace MSController
             return "";
         }
 
+
+        // Write
         /// <summary>
         /// Writes a value to a specified cell in the open spreadsheet.
         /// </summary>
@@ -248,6 +252,8 @@ namespace MSController
                 range.NumberFormat = "#";
         }
 
+
+        // Delete
         /// <summary>
         /// Deletes the specified row from the spreadsheet.
         /// </summary>
