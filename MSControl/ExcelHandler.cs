@@ -30,9 +30,8 @@ namespace MSController
         {
             excelApp = new Excel.Application();
 
-            // TODO: Create custom exception
             if (excelApp == null)
-                throw new Exception();
+                throw new Exception("Excel could not be started. Ensure it is correctly installed on the machine.");
 
             if (!File.Exists(filePath))
                 throw new IOException();
@@ -52,9 +51,9 @@ namespace MSController
                 {
                     worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
                 }
-                catch (Exception e)
+                catch (System.Runtime.InteropServices.COMException)
                 {
-                    worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+                    throw new ArgumentException("The specified worksheet was not found.");
                 }
             }
 
@@ -69,9 +68,8 @@ namespace MSController
         {
             excelApp = new Excel.Application();
 
-            // TODO: Create custom exception
             if (excelApp == null)
-                throw new Exception();
+                throw new Exception("Excel could not be started. Ensure it is correctly installed on the machine.");
 
             excelApp.Visible = false;
             workbooks = excelApp.Workbooks;
@@ -129,7 +127,6 @@ namespace MSController
         /// <summary>
         /// Opens an excel spreadsheet, creates a new sheet then closes it.
         /// </summary>
-        /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
         /// <param name="sheet">The worksheet to create.</param>
         public void addSheet(string sheet)
         {
@@ -142,10 +139,20 @@ namespace MSController
         /// </summary>
         /// <param name="newSheet">The new name of the worksheet.</param>
         /// <param name="oldSheet">The worksheet to rename.</param>
-        public void renameSheet(string newSheet, string oldSheet="default")
+        public void renameSheet(string newSheet, string oldSheet = "default")
         {
-            if (! oldSheet.Equals("default"))
-                worksheet = (Excel.Worksheet)worksheets.get_Item(oldSheet);
+            if (!oldSheet.Equals("default"))
+            {
+                try
+                {
+                    worksheet = (Excel.Worksheet)worksheets.get_Item(oldSheet);
+                }
+                catch (System.Runtime.InteropServices.COMException)
+                {
+                    throw new ArgumentException("The specified worksheet was not found.");
+                }
+
+            }
 
             worksheet.Name = newSheet;
         }
@@ -160,7 +167,7 @@ namespace MSController
             {
                 worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 worksheet = (Excel.Worksheet)workbook.ActiveSheet;
             }
@@ -343,7 +350,7 @@ namespace MSController
         /// Deletes the specified worksheet from the spreadsheet. If no sheet is specified the currently selected sheet is deleted.
         /// </summary>
         /// <param name="sheet">The sheet to delete.</param>
-        public void deleteSheet(string sheet="default")
+        public void deleteSheet(string sheet = "default")
         {
             if (sheet.Equals("default"))
                 worksheet = (Excel.Worksheet)workbook.ActiveSheet;
