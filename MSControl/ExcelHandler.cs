@@ -243,14 +243,45 @@ namespace MSController
         /// </returns>
         public string getLastCellInRow(int row)
         {
-            // TODO
-            List<string> alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(x => x.ToString()).ToList();
+            List<string> columns = getColumnList();
 
-            for (int i = 0; i < 26; i++)
-                for (int j = 0; j < 26; j++)
-                    alphabet.Add(alphabet[i] + alphabet[j]);  // Note this only goes up to ZZ whereas excel can go much further
+            int counter = 0;
+            range = worksheet.Range[columns[counter] + row];
+            string lastCell = "";
 
-            return "";
+            while (range.Value != null)
+            {
+                lastCell = range.Value.ToString();
+                counter++;
+                range = worksheet.Range[columns[counter] + row];
+            }
+
+            return lastCell;
+        }
+
+        /// <summary>
+        /// Gets a list of each value in the specified row in the open spreadsheet.
+        /// </summary>
+        /// <param name="row">The row to search.</param>
+        /// <returns></returns>
+        public List<string> getAllInRow(int row)
+        {
+            List<string> columns = getColumnList();
+            List<string> rowData = new List<string>();
+
+            int counter = 0;
+            range = worksheet.Range[columns[counter] + row];
+            string lastCell = "";
+
+            while (range.Value != null)
+            {
+                lastCell = range.Value.ToString();
+                counter++;
+                range = worksheet.Range[columns[counter] + row];
+                rowData.Add(lastCell);
+            }
+
+            return rowData;
         }
 
 
@@ -324,6 +355,25 @@ namespace MSController
                 worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
 
             worksheet.Delete();
+        }
+
+
+        // Misc
+        private List<string> getColumnList()
+        {
+            // Create a list for the columns from A-ZZZ
+            List<string> columns = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(x => x.ToString()).ToList();  // A-Z
+
+            for (int i = 0; i < 26; i++)
+                for (int j = 0; j < 26; j++)
+                    columns.Add(columns[i] + columns[j]);  // AA-ZZ
+
+            for (int i = 0; i < 26; i++)
+                for (int j = 0; j < 26; j++)
+                    for (int k = 0; k < 26; ++k)
+                        columns.Add(columns[i] + columns[j] + columns[k]);  // AAA-ZZZ
+
+            return columns;
         }
     }
 
