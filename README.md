@@ -17,16 +17,17 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
 ## Quick examples - OutlookHandler
 
     OutlookHandler outlookHandler = new OutlookHandler();
-    // recipeint and attachmentPath can either be strings or List<string>s - attachmentPath is optional
+    // recipient and attachmentPath can either be strings or List<string>s - attachmentPath is optional
     outlookHandler.sendMail(subject, body, recipient, attachmentPath);  
     
 -------------------------------------------
     
 #### Future changes
 ExcelHandler
-- Finish the getLastCellInRow method.
 - Implement a writeLastCellInRow method.
-- Improve exception handling.
+- Implement deleteColumn and deleteRow methods.
+- Implement isOpen method.
+- Improve exception handling - with custom exceptions.
 
 OutlookHandler
 - Improve exception handling.

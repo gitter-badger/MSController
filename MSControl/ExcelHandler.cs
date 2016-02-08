@@ -19,10 +19,6 @@ namespace MSController
         static Excel.Range range;
         object missing = System.Reflection.Missing.Value;
 
-        /*
-        TODO
-        - Add custom exceptions that are clearer than COM exceptions - eg. "Worksheet not found", "Excel cannot be opened"
-        */
 
         // Open, close, create, isOpen
         /// <summary>
