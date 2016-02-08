@@ -226,7 +226,7 @@ namespace MSController
         /// </returns>
         public string getLastCellInRow(int row)
         {
-            // TODO: getLastColumnCell() method
+            // TODO
             List<string> alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".Select(x => x.ToString()).ToList();
 
             for (int i = 0; i < 26; i++)
@@ -293,6 +293,20 @@ namespace MSController
         public void deleteColumn(string column)
         {
             // TODO
+        }
+
+        /// <summary>
+        /// Deletes the specified worksheet from the spreadsheet. If no sheet is specified the currently selected sheet is deleted.
+        /// </summary>
+        /// <param name="sheet">The sheet to delete.</param>
+        public void deleteSheet(string sheet="default")
+        {
+            if (sheet.Equals("default"))
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            else
+                worksheet = (Excel.Worksheet)worksheets.get_Item(sheet);
+
+            worksheet.Delete();
         }
     }
 
