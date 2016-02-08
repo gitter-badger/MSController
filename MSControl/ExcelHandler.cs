@@ -19,6 +19,10 @@ namespace MSController
         static Excel.Range range;
         object missing = System.Reflection.Missing.Value;
 
+        /*
+        TODO
+        - Add custom exceptions that are clearer than COM exceptions - eg. "Worksheet not found", "Excel cannot be opened"
+        */
 
         // Open, close, create, isOpen
         /// <summary>
@@ -120,7 +124,7 @@ namespace MSController
         /// </returns>
         public bool isOpen(string filePath)
         {
-            // TODO: Create isOpen() method
+            // TODO
             return false;
         }
 
@@ -135,6 +139,19 @@ namespace MSController
         {
             worksheet = (Excel.Worksheet)worksheets.Add(worksheets[1], Type.Missing, Type.Missing, Type.Missing);
             worksheet.Name = sheet;
+        }
+
+        /// <summary>
+        /// Renames the currently selected worksheet or a specified one.
+        /// </summary>
+        /// <param name="newSheet">The new name of the worksheet.</param>
+        /// <param name="oldSheet">The worksheet to rename.</param>
+        public void renameSheet(string newSheet, string oldSheet="default")
+        {
+            if (! oldSheet.Equals("default"))
+                worksheet = (Excel.Worksheet)worksheets.get_Item(oldSheet);
+
+            worksheet.Name = newSheet;
         }
 
         /// <summary>
