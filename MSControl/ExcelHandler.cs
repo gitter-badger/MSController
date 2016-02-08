@@ -174,7 +174,7 @@ namespace MSController
         /// <summary>
         /// Gets the value from the last cell in a specified column in the open spreadsheet.
         /// </summary>
-        /// <param name="column">String value of the column of the cell.</param>
+        /// <param name="column">The column to search.</param>
         /// <returns>
         /// The value from the last cell in the specified column.
         /// </returns>
@@ -195,6 +195,29 @@ namespace MSController
         }
 
         /// <summary>
+        /// Gets a list of each value in the specified column in the open spreadsheet.
+        /// </summary>
+        /// <param name="column">The column to search.</param>
+        /// <returns></returns>
+        public List<string> getAllInColumn(string column)
+        {
+            List<string> columnData = new List<string>();
+            int counter = 1;
+            range = worksheet.Range[column + counter];
+            string lastCell = "";
+
+            while (range.Value != null)
+            {
+                lastCell = range.Value.ToString();
+                counter++;
+                range = worksheet.Range[column + counter];
+                columnData.Add(lastCell);
+            }
+
+            return columnData;
+        }
+
+        /// <summary>
         /// Gets the value from the last cell in a specified row in the open spreadsheet.
         /// </summary>
         /// <param name="row">Int value of the row of the cell.</param>
@@ -208,7 +231,7 @@ namespace MSController
 
             for (int i = 0; i < 26; i++)
                 for (int j = 0; j < 26; j++)
-                    alphabet.Add(alphabet[i] + alphabet[j]);
+                    alphabet.Add(alphabet[i] + alphabet[j]);  // Note this only goes up to ZZ whereas excel can go much further
 
             return "";
         }
