@@ -5,20 +5,23 @@ Download the DLL and XML from [releases](https://github.com/DStewart1997/MSContr
 
 ## Quick examples - ExcelHandler
 
-    ExcelHandler excelHandler = new ExcelHandler();
-    excelHandler.open(FILEPATH);
-    string data = excelHandler.getCell("A", 1);  // Gets value from cell A1
-    string dataLast = excelHandler.getLastCellInColumn("A");  // Gets the value from the last occupied row in column A
-    excelHandler.writeCell("A", 2, data);  // Writes data to cell A2
-    excelHandler.close();
-    
+```C#
+ExcelHandler excelHandler = new ExcelHandler();
+excelHandler.open(FILEPATH);
+string data = excelHandler.getCell("A", 1);  // Gets value from cell A1
+string dataLast = excelHandler.getLastCellInColumn("A");  // Gets the value from the last occupied row in column A
+excelHandler.writeCell("A", 2, data);  // Writes data to cell A2
+excelHandler.close();
+```
 
 
 ## Quick examples - OutlookHandler
 
-    OutlookHandler outlookHandler = new OutlookHandler();
-    // recipient and attachmentPath can either be strings or List<string>s - attachmentPath is optional
-    outlookHandler.sendMail(subject, body, recipient, attachmentPath);  
+```C#
+OutlookHandler outlookHandler = new OutlookHandler();
+// recipient and attachmentPath can either be strings or List<string>s - attachmentPath is optional
+outlookHandler.sendMail(subject, body, recipient, attachmentPath);  
+```
     
 -------------------------------------------
     
