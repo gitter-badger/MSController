@@ -28,13 +28,13 @@ namespace MSController
         /// <param name="sheet">The worksheet to open.</param>
         public void open(string filePath, string sheet = "defualt")
         {
+            if (!File.Exists(filePath))
+                create(filePath);  // Create the file if it doesn't exist
+
             excelApp = new Excel.Application();
 
             if (excelApp == null)
                 throw new Exception("Excel could not be started. Ensure it is correctly installed on the machine.");
-
-            if (!File.Exists(filePath))
-                create(filePath);  // Create the file if it doesn't exist
 
             excelApp.Visible = false;
             workbooks = excelApp.Workbooks;
