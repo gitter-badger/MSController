@@ -22,10 +22,10 @@ namespace MSController
 
         // Open, close, create, isOpen
         /// <summary>
-        /// Opens an existing excel spreadsheet for processing.
+        /// Opens an excel spreadsheet for processing. If it does not exist it will be created.
         /// </summary>
         /// <param name="filePath">The filepath string of the spreadsheet to be opened.</param>
-        /// <param name="sheet">The worksheet to open.</param>
+        /// <param name="sheet">The worksheet to open. If it does not exist it will be created.</param>
         public void open(string filePath, string sheet = "defualt")
         {
             if (!File.Exists(filePath))
