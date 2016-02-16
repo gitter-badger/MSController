@@ -34,7 +34,7 @@ namespace MSController
                 throw new Exception("Excel could not be started. Ensure it is correctly installed on the machine.");
 
             if (!File.Exists(filePath))
-                throw new IOException();
+                create(filePath);  // Create the file if it doesn't exist
 
             excelApp.Visible = false;
             workbooks = excelApp.Workbooks;
@@ -53,7 +53,7 @@ namespace MSController
                 }
                 catch (System.Runtime.InteropServices.COMException)
                 {
-                    throw new ArgumentException("The specified worksheet was not found.");
+                    addSheet(sheet);  // Add sheet if it doesn't exist
                 }
             }
 
@@ -125,7 +125,7 @@ namespace MSController
 
         // Navigation
         /// <summary>
-        /// Opens an excel spreadsheet, creates a new sheet then closes it.
+        /// Adds a new sheet to the currently open spreadsheet and switches to it.
         /// </summary>
         /// <param name="sheet">The worksheet to create.</param>
         public void addSheet(string sheet)
